@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\DoctorAvailabilityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,16 @@ Route::apiResource(
     'doctors',
     DoctorController::class
 );
+
+Route::prefix('doctors')->group(function () {
+
+    Route::get(
+        '/{doctor}/availabilities',
+        [DoctorAvailabilityController::class, 'index']
+    );
+
+    Route::post(
+        '/{doctor}/availabilities',
+        [DoctorAvailabilityController::class, 'store']
+    );
+});
