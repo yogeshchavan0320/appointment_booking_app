@@ -1,0 +1,69 @@
+Project Setup: 
+	We will use PHP 8.1 and Laravel 10 for this project.
+
+Environment Setup Steps
+- Install PHP 8.1, as Laravel 10 requires PHP 8.1 or higher.
+- Install Composer to manage PHP dependencies and Laravel packages.
+- Verify the installations of PHP and Composer.
+- Create a new Laravel 10 application using Composer.
+- Configure the project environment and required dependencies.
+- Set up the database connection and application configuration.
+- Start the development process and implement the required features.
+
+APIs : 
+
+- Doctor
+	API Name : All Doctors
+	Endpoint: GET http://localhost:8000/api/doctors
+	Desc : Used to fetch the list of all doctors available in the system.
+	
+	API Name : Create Doctor
+	Endpoint: POST http://localhost:8000/api/doctors/5	
+	Desc : Used to create a new doctor record by storing details such as name, email, mobile number, specialization, and other required information.
+	
+	API Name : Update Doctore Details By ID : 
+	Endpoint: PUT http://localhost:8000/api/doctors/5
+	Desc : Used to update an existing doctor’s information based on the provided doctor ID.
+	
+	API Name : Doctore Details By ID : 
+	Endpoint: GET http://localhost:8000/api/doctors/1
+	Desc : Used to retrieve complete details of a specific doctor using the doctor ID.
+	
+	API Name : Delete Doctore Details : 
+	Endpoint: DELETE http://localhost:8000/api/doctors/1
+	Desc : Used to remove a doctor record from the system based on the provided doctor ID.
+	
+- Doctor Availability Schedule
+	API Name : create doctor availability : 
+	Endpoint : POST http://localhost:8000/api/doctors/2/availabilities
+	Desc : Used to create and store doctor availability schedules including available date, start time, end time, and slot duration.
+	
+	API Name : check doctor availability : 
+	Endpoint : GET http://localhost:8000/api/doctors/2/availabilities
+	Desc : Used to fetch all availability schedules for a specific doctor.
+	
+- Appointment
+	API Name : book-appointment :
+	Endpoint: POST http://localhost:8000/api/doctors/5/book-appointment
+	Desc : Used to book an appointment for a patient with a doctor based on an available time slot.
+	
+	API Name : check-available-slots : 
+	Endpoint : GET http://localhost:8000/api/doctors/2/available-slots
+	Desc : Used to retrieve all available appointment slots for a doctor on a selected date.
+	
+	API Name : cancel-appointment : 
+	Endpoint : POST http://localhost:8000/api/appointments/1/cancel
+	Desc : Used to cancel an existing appointment and update the slot availability.
+	
+	API Name : reschedule-appointment : 
+	Endpoint : POST http://localhost:8000/api/appointments/3/reschedule
+	Desc : Used to change the appointment date or time slot for an existing booking.
+	
+Note : 
+	For testing purposes, I will also share the Doctor Appointment Booking System.postman_collection file in the repository. 
+	This collection contains all API endpoints with sample request data, making it easier to test and verify the APIs.
+	
+DB : 
+	I will use the MySQL database for this task.
+	For testing purposes, I will also share the database backup file in the repository named appointment_booking_DB, 
+	which can be imported directly to set up the database quickly and test the application APIs.
