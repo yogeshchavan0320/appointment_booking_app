@@ -15,8 +15,7 @@ class Doctor extends Model
         'specialization',
     ];
 
-    public function availabilities()
-    {
+    public function availabilities() {
         return $this->hasMany(DoctorAvailability::class);
     }
 }

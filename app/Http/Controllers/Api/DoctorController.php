@@ -12,9 +12,7 @@ use App\Http\Requests\UpdateDoctorRequest;
 class DoctorController extends Controller
 {
     // Display all doctors.
-
-     public function index()
-    {
+    public function index() {
         $doctors = Doctor::latest()->get();
 
         return response()->json([
@@ -25,9 +23,7 @@ class DoctorController extends Controller
     }
 
     // Store a new doctor.
-
-     public function store(StoreDoctorRequest $request)
-    {
+    public function store(StoreDoctorRequest $request) {
         $doctor = Doctor::create([
             'name' => $request->name,
             'mobile_no' => $request->mobile_no,
@@ -42,9 +38,7 @@ class DoctorController extends Controller
     }
 
     // Show single doctor.
-
-    public function show(Doctor $doctor)
-    {
+    public function show(Doctor $doctor) {
         return response()->json([
             'success' => true,
             'message' => 'Doctor details fetched successfully',
@@ -53,12 +47,7 @@ class DoctorController extends Controller
     }
 
     // Update doctor.
-
-    public function update(
-        UpdateDoctorRequest $request,
-        Doctor $doctor
-    ) {
-
+    public function update(UpdateDoctorRequest $request, Doctor $doctor) {
         $doctor->update([
             'name' => $request->name ?? $doctor->name,
             'mobile_no' => $request->mobile_no ?? $doctor->mobile_no,
@@ -73,9 +62,7 @@ class DoctorController extends Controller
     }
 
     // Delete doctor.
-
-    public function destroy(Doctor $doctor)
-    {
+    public function destroy(Doctor $doctor) {
         $doctor->delete();
 
         return response()->json([

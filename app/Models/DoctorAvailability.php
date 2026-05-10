@@ -18,8 +18,7 @@ class DoctorAvailability extends Model
     ];
 
     // Doctor relation.
-    public function doctor()
-    {
+    public function doctor() {
         return $this->belongsTo(Doctor::class);
     }
 }

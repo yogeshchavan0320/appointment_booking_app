@@ -16,24 +16,15 @@ use App\Http\Requests\BookAppointmentRequest;
 class DoctorAppointmentController extends Controller
 {
     // View available slots.
-
     public function availableSlots(Doctor $doctor) {
         $availabilities = $doctor->availabilities;
-
         $slots = [];
 
         foreach ($availabilities as $availability) {
-
-            $start = Carbon::parse(
-                $availability->start_time
-            );
-
-            $end = Carbon::parse(
-                $availability->end_time
-            );
+            $start = Carbon::parse($availability->start_time);
+            $end = Carbon::parse($availability->end_time);
 
             while ($start < $end) {
-
                 $slotEnd = $start->copy()
                     ->addMinutes(
                         $availability->slot_duration
@@ -51,7 +42,6 @@ class DoctorAppointmentController extends Controller
                 ])->exists();
 
                 if (!$booked) {
-
                     $slots[] = [
                         'date' => $availability->available_date,
                         'start_time' => $start->format('H:i'),
@@ -59,9 +49,7 @@ class DoctorAppointmentController extends Controller
                     ];
                 }
 
-                $start->addMinutes(
-                    $availability->slot_duration
-                );
+                $start->addMinutes($availability->slot_duration);
             }
         }
 
@@ -72,13 +60,9 @@ class DoctorAppointmentController extends Controller
     }
 
     // Book appointment.
-
     public function book(BookAppointmentRequest $request, Doctor $doctor) {
-
         DB::beginTransaction();
-
         try {
-
             // Lock row for concurrency protection
             $exists = Appointment::where([
                 'doctor_id' => $doctor->id,
@@ -90,9 +74,7 @@ class DoctorAppointmentController extends Controller
             ->exists();
 
             if ($exists) {
-
                 DB::rollBack();
-
                 return response()->json([
                     'success' => false,
                     'message' => 'Slot already booked'
@@ -100,25 +82,13 @@ class DoctorAppointmentController extends Controller
             }
 
             $appointment = Appointment::create([
-
                 'doctor_id' => $doctor->id,
-
                 'patient_name' => $request->patient_name,
-
                 'patient_email' => $request->patient_email,
-
                 'appointment_date' => $request->appointment_date,
-
                 'start_time' => $request->start_time,
-
-                'end_time' => Carbon::parse(
-                    $request->start_time
-                )->addMinutes(30)->format('H:i:s'),
-
-                'booking_reference' => strtoupper(
-                    Str::random(10)
-                ),
-
+                'end_time' => Carbon::parse($request->start_time)->addMinutes(30)->format('H:i:s'),
+                'booking_reference' => strtoupper(Str::random(10)),
                 'status' => 'booked'
             ]);
 
@@ -131,7 +101,6 @@ class DoctorAppointmentController extends Controller
             ], 201);
 
         } catch (Exception $e) {
-
             DB::rollBack();
 
             return response()->json([
@@ -142,9 +111,7 @@ class DoctorAppointmentController extends Controller
     }
 
     // Cancel appointment.
-
     public function cancel(Request $request, Appointment $appointment) {
-
         $appointment->update([
             'status' => 'cancelled',
             'cancellation_reason' => $request->reason
@@ -157,9 +124,7 @@ class DoctorAppointmentController extends Controller
     }
 
     // Reschedule appointment.
-
     public function reschedule( Request $request, Appointment $appointment) {
-
         $exists = Appointment::where([
             'doctor_id' => $appointment->doctor_id,
             'appointment_date' => $request->appointment_date,
@@ -168,7 +133,6 @@ class DoctorAppointmentController extends Controller
         ])->exists();
 
         if ($exists) {
-
             return response()->json([
                 'success' => false,
                 'message' => 'New slot already booked'
@@ -178,9 +142,7 @@ class DoctorAppointmentController extends Controller
         $appointment->update([
             'appointment_date' => $request->appointment_date,
             'start_time' => $request->start_time,
-            'end_time' => Carbon::parse(
-                $request->start_time
-            )->addMinutes(30)->format('H:i:s')
+            'end_time' => Carbon::parse($request->start_time)->addMinutes(30)->format('H:i:s')
         ]);
 
         return response()->json([

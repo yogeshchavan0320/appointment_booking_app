@@ -21,7 +21,7 @@ class Appointment extends Model
         'cancellation_reason'
     ];
 
-    public function doctor(){
+    public function doctor() {
         return $this->belongsTo(Doctor::class);
     }
 }
