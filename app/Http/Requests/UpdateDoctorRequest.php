@@ -27,6 +27,14 @@ class UpdateDoctorRequest extends FormRequest
                 'max:255'
             ],
 
+            'email' => [
+                'sometimes',
+                'required',
+                'email',
+                'max:255',
+                'unique:doctors,email,' . $this->doctor->id
+            ],
+
             'mobile_no' => [
                 'sometimes',
                 'required',

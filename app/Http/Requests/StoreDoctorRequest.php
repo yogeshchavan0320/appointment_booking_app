@@ -27,6 +27,12 @@ class StoreDoctorRequest extends FormRequest
                 'max:255'
             ],
 
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'unique:doctors,email'
+            ],
 
             'mobile_no' => [
                 'required',

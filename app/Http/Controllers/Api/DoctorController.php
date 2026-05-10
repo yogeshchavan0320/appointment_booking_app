@@ -26,7 +26,8 @@ class DoctorController extends Controller
     public function store(StoreDoctorRequest $request) {
         $doctor = Doctor::create([
             'name' => $request->name,
-            'mobile_no' => $request->mobile_no,
+            'mobile_no' => $request->mobile_no, 
+            'email' => $request->email,
             'specialization' => $request->specialization,
         ]);
 
@@ -52,6 +53,7 @@ class DoctorController extends Controller
             'name' => $request->name ?? $doctor->name,
             'mobile_no' => $request->mobile_no ?? $doctor->mobile_no,
             'specialization' => $request->specialization ?? $doctor->specialization,
+            'email' => $request->email ?? $doctor->email,
         ]);
 
         return response()->json([

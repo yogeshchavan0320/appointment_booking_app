@@ -14,22 +14,18 @@ class AppointmentBookedNotification extends Notification implements ShouldQueue
     protected $appointment;
 
     // Create a new notification instance.
-    public function __construct($appointment)
-    {
+    public function __construct($appointment) {
         $this->appointment = $appointment;
     }
 
     // Notification channels.
-    public function via(object $notifiable): array
-    {
+    public function via(object $notifiable): array {
         return ['database', 'mail'];
     }
 
     // Store notification in database.
-    public function toDatabase(object $notifiable): array
-    {
+    public function toDatabase(object $notifiable): array {
         return [
-            'appointment_id' => $this->appointment->id,
             'message' => 'Your Appointment booked successfully',
             'booking_reference' => $this->appointment->booking_reference,
             'appointment_date' => $this->appointment->appointment_date,
@@ -38,15 +34,25 @@ class AppointmentBookedNotification extends Notification implements ShouldQueue
     }
 
     // Send email notification.
-    public function toMail(object $notifiable): MailMessage
-    {
+    public function toMail(object $notifiable): MailMessage {
         return (new MailMessage)
 
-            ->subject('Appointment Booking Confirmation')
+            ->subject(
+                'Appointment Booking Confirmation'
+            )
 
-            ->greeting('Hello ' . $this->appointment->patient_name)
+            ->greeting(
+                'Hello Dr. ' . $notifiable->name
+            )
 
-            ->line('Your appointment has been booked successfully.')
+            ->line(
+                'A new appointment has been booked.'
+            )
+
+            ->line(
+                'Patient Name: '
+                . $this->appointment->patient_name
+            )
 
             ->line(
                 'Booking Reference: '
@@ -67,8 +73,7 @@ class AppointmentBookedNotification extends Notification implements ShouldQueue
     }
 
     // Get the array representation of the notification.
-    public function toArray(object $notifiable): array
-    {
+    public function toArray(object $notifiable): array {
         return [
             //
         ];

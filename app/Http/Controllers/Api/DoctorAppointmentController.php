@@ -12,6 +12,7 @@ use App\Models\Appointment;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\BookAppointmentRequest;
+use App\Notifications\AppointmentBookedNotification;
 
 class DoctorAppointmentController extends Controller
 {
@@ -93,6 +94,13 @@ class DoctorAppointmentController extends Controller
             ]);
 
             DB::commit();
+
+            // send notification & added into queue
+            $doctor->notify(
+                new AppointmentBookedNotification(
+                    $appointment
+                )
+            );
 
             return response()->json([
                 'success' => true,
